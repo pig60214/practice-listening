@@ -1,5 +1,6 @@
 import pool from './connect';
 import { objectToCamel } from 'ts-case-convert';
+import ITranscription from "../interfaces/transcription";
 
 const transcriptionRepo = {
   async getTranscriptions(): Promise<ITranscription[]>{

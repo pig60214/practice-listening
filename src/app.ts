@@ -1,14 +1,19 @@
 import express, { Express, Router } from "express";
 import cors from "cors";
-import apis from './apis';
+import { RegisterRoutes } from "./routes/routes";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from './routes/swagger.json';
 
 const app: Express = express();
 app.use(express.json());
 app.use(cors());
 
 const router = Router();
-router.get('/getTranscriptions', apis.getTranscriptions);
+RegisterRoutes(router);
 
 app.use("/", router);
+
+app.use('/api-docs', swaggerUi.serve);
+app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 export default app;
