@@ -9,6 +9,6 @@ app.use(cors());
 const router = Router();
 router.get('/getTranscriptions', apis.getTranscriptions);
 
-app.use("/api/", router);
+app.use("/", router);
 
 export default app;
