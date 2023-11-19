@@ -6,9 +6,15 @@ import ApiResponse from "../interfaces/apiResponse";
 @Route("transcription")
 export class TranscriptionController extends Controller {
   private transcriptionService = new TranscriptionService();
-  @Get("/get-all")
-  public async getAllTranscriptions(): Promise<ApiResponse<ITranscription[]>> {
-    const t = await this.transcriptionService.getTranscriptions();
+  @Get("/get-list")
+  public async getList(): Promise<ApiResponse<ITranscription[]>> {
+    const t = await this.transcriptionService.getList();
+    return new ApiResponse(0, t);
+  }
+
+  @Get("/{id}")
+  public async getById(id: number): Promise<ApiResponse<ITranscription>> {
+    const t = await this.transcriptionService.getById(id);
     return new ApiResponse(0, t);
   }
 
