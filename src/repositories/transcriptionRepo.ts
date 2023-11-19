@@ -3,6 +3,15 @@ import { objectToCamel } from 'ts-case-convert';
 import ITranscription from "../interfaces/transcription";
 
 export default class TranscriptionRepo {
+  async add(request: ITranscription): Promise<number> {
+    try {
+      await pool.query(`INSERT INTO transcription(title, content, youtube_url) VALUES('${request.title}', '${request.content.replaceAll("'", "''")}', '${request.youtubeUrl}')`);
+      return 0;
+    } catch (err) {
+      console.error('SQL error', err);
+      return 1;
+    }
+  }
   async getById(id: number): Promise<ITranscription> {
     try {
       const result = await pool.query(`SELECT id, title, content FROM transcription WHERE id = ${id}`);

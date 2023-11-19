@@ -1,8 +1,14 @@
+import { Body } from "tsoa";
 import ITranscription from "../interfaces/transcription";
 import TranscriptionRepo from "../repositories/transcriptionRepo";
 
 export default class TranscriptionService {
   transcriptionRepo = new TranscriptionRepo();
+
+  public async add(@Body() request: ITranscription): Promise<number> {
+    const result = await this.transcriptionRepo.add(request);
+    return result;
+  }
   public async getById(id: number): Promise<ITranscription> {
     const result = await this.transcriptionRepo.getById(id);
     return result;

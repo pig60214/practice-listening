@@ -1,6 +1,6 @@
 import pool from './connect';
 import { objectToCamel } from 'ts-case-convert';
-import IVocabulary from '../interfaces/vocabulary';
+import IVocabulary from '../interfaces/word';
 
 export default class VocabularyRepo {
   async add(request: IVocabulary) {

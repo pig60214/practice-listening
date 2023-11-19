@@ -1,5 +1,5 @@
 import ApiResponse from "../interfaces/apiResponse";
-import IVocabulary from "../interfaces/vocabulary";
+import IVocabulary from "../interfaces/word";
 import VocabularyRepo from "../repositories/vocabularyRepo";
 
 export default class VocabularyService {

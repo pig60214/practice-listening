@@ -23,4 +23,10 @@ export class TranscriptionController extends Controller {
     const t = await this.transcriptionService.updateTranscription(request);
     return new ApiResponse(t);
   }
+
+  @Post("/add")
+  public async add(@Body() request: ITranscription): Promise<ApiResponse> {
+    const t = await this.transcriptionService.add(request);
+    return new ApiResponse(t);
+  }
 }
