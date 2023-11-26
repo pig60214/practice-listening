@@ -5,7 +5,13 @@ import IVocabulary from '../interfaces/word';
 export default class VocabularyRepo {
   async add(request: IVocabulary) {
     try {
-      await pool.query(`INSERT INTO vocabulary(transcription_id, word) VALUES(${request.transcriptionId}, '${request.word.replaceAll("'", "''")}')`);
+      await pool.query(`
+      INSERT INTO vocabulary(transcription_id, word)
+      SELECT ${request.transcriptionId}, '${request.word.replaceAll("'", "''")}'
+      WHERE NOT EXISTS (
+        SELECT 1 FROM vocabulary WHERE transcription_id = ${request.transcriptionId} AND word = '${request.word.replaceAll("'", "''")}'
+      )
+      `);
       return 0;
     } catch (err) {
       console.error('SQL error', err);
