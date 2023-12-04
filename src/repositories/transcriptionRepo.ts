@@ -14,7 +14,7 @@ export default class TranscriptionRepo {
   }
   async getById(id: number): Promise<ITranscription> {
     try {
-      const result = await pool.query(`SELECT id, title, content FROM transcription WHERE id = ${id}`);
+      const result = await pool.query(`SELECT id, title, content, youtube_url FROM transcription WHERE id = ${id}`);
       const data = objectToCamel(result.rows) as ITranscription[];
       return data[0];
     } catch (err) {
