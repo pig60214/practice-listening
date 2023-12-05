@@ -1,11 +1,11 @@
 import { Body } from "tsoa";
-import ITranscription from "../interfaces/transcription";
+import { IAddTranscription, ITranscription, IUpdateTranscription } from "../interfaces/transcription";
 import TranscriptionRepo from "../repositories/transcriptionRepo";
 
 export default class TranscriptionService {
   transcriptionRepo = new TranscriptionRepo();
 
-  public async add(@Body() request: ITranscription): Promise<number> {
+  public async add(@Body() request: IAddTranscription): Promise<number> {
     const result = await this.transcriptionRepo.add(request);
     return result;
   }
@@ -13,7 +13,7 @@ export default class TranscriptionService {
     const result = await this.transcriptionRepo.getById(id);
     return result;
   }
-  public async updateTranscription(transcription: ITranscription): Promise<number> {
+  public async updateTranscription(transcription: IUpdateTranscription): Promise<number> {
     const t = await this.transcriptionRepo.updateTranscription(transcription);
     return t;
   }

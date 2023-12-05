@@ -1,9 +1,9 @@
 import pool from './connect';
 import { objectToCamel } from 'ts-case-convert';
-import ITranscription from "../interfaces/transcription";
+import { IAddTranscription, ITranscription, IUpdateTranscription } from "../interfaces/transcription";
 
 export default class TranscriptionRepo {
-  async add(request: ITranscription): Promise<number> {
+  async add(request: IAddTranscription): Promise<number> {
     try {
       await pool.query(`INSERT INTO transcription(title, content, youtube_url) VALUES('${request.title}', '${request.content.replaceAll("'", "''")}', '${request.youtubeUrl}')`);
       return 0;
@@ -22,7 +22,7 @@ export default class TranscriptionRepo {
       return {} as ITranscription;
     }
   }
-  async updateTranscription(transcription: ITranscription): Promise<number> {
+  async updateTranscription(transcription: IUpdateTranscription): Promise<number> {
     try {
       await pool.query(`UPDATE transcription SET title = '${transcription.title}', content = '${transcription.content.replaceAll("'", "''")}', youtube_url = '${transcription.youtubeUrl}' WHERE id = ${transcription.id}`);
       return 0;

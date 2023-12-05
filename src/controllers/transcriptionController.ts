@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Route } from "tsoa";
-import ITranscription from "../interfaces/transcription";
 import TranscriptionService from "../services/transcriptionService";
 import ApiResponse from "../interfaces/apiResponse";
+import { IAddTranscription, ITranscription, IUpdateTranscription } from "../interfaces/transcription";
 
 @Route("transcription")
 export class TranscriptionController extends Controller {
@@ -19,13 +19,13 @@ export class TranscriptionController extends Controller {
   }
 
   @Post("/update")
-  public async updateTranscription(@Body() request: ITranscription): Promise<ApiResponse> {
+  public async updateTranscription(@Body() request: IUpdateTranscription): Promise<ApiResponse> {
     const t = await this.transcriptionService.updateTranscription(request);
     return new ApiResponse(t);
   }
 
   @Post("/add")
-  public async add(@Body() request: ITranscription): Promise<ApiResponse> {
+  public async add(@Body() request: IAddTranscription): Promise<ApiResponse> {
     const t = await this.transcriptionService.add(request);
     return new ApiResponse(t);
   }
