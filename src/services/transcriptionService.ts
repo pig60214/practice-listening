@@ -1,9 +1,14 @@
 import { Body } from "tsoa";
 import { IAddTranscription, ITranscription, IUpdateTranscription } from "../interfaces/transcription";
 import TranscriptionRepo from "../repositories/transcriptionRepo";
+import { TranscriptResponse, YoutubeTranscript } from 'youtube-transcript';
 
 export default class TranscriptionService {
   transcriptionRepo = new TranscriptionRepo();
+  public async fetchYoutubeTranscription(request: string): Promise<TranscriptResponse[]> {
+    const transcript = await YoutubeTranscript.fetchTranscript(request, {lang: 'en'});
+    return transcript;
+  }
 
   public async add(@Body() request: IAddTranscription): Promise<number> {
     const result = await this.transcriptionRepo.add(request);

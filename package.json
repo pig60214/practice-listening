@@ -20,7 +20,8 @@
     "serverless-http": "^3.2.0",
     "swagger-ui-express": "^5.0.0",
     "ts-case-convert": "^2.0.2",
-    "tsoa": "^5.1.1"
+    "tsoa": "^5.1.1",
+    "youtube-transcript": "^1.0.6"
   },
   "devDependencies": {
     "@types/cors": "^2.8.16",

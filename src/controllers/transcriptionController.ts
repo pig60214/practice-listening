@@ -2,6 +2,8 @@ import { Body, Controller, Get, Post, Route } from "tsoa";
 import TranscriptionService from "../services/transcriptionService";
 import ApiResponse from "../interfaces/apiResponse";
 import { IAddTranscription, ITranscription, IUpdateTranscription } from "../interfaces/transcription";
+import IGenerateFromYoutubeRequest from "../interfaces/generateFromYoutube";
+import { TranscriptResponse } from "youtube-transcript";
 
 @Route("transcription")
 export class TranscriptionController extends Controller {
@@ -28,5 +30,11 @@ export class TranscriptionController extends Controller {
   public async add(@Body() request: IAddTranscription): Promise<ApiResponse> {
     const t = await this.transcriptionService.add(request);
     return new ApiResponse(t);
+  }
+
+  @Post("/fetch-youtube-transcription")
+  public async fetchYoutubeTranscription(@Body() request: IGenerateFromYoutubeRequest): Promise<ApiResponse<TranscriptResponse[]>> {
+    const t = await this.transcriptionService.fetchYoutubeTranscription(request.youtubeUrl);
+    return new ApiResponse(0, t);
   }
 }
