@@ -33,7 +33,7 @@ export default class TranscriptionRepo {
   }
   async getList(): Promise<ITranscription[]>{
     try {
-      const result = await pool.query(`SELECT id, title FROM transcription ${process.env.ENV !== 'test' ? 'WHERE is_test = 0': ''}`);
+      const result = await pool.query(`SELECT id, title, youtube_url FROM transcription ${process.env.ENV !== 'test' ? 'WHERE is_test = 0': ''}`);
       const data = objectToCamel(result.rows) as ITranscription[];
       return data;
     } catch (err) {
