@@ -2,12 +2,24 @@ import { Body } from "tsoa";
 import { IAddTranscription, ITranscription, IUpdateTranscription } from "../interfaces/transcription";
 import TranscriptionRepo from "../repositories/transcriptionRepo";
 import { TranscriptResponse, YoutubeTranscript } from 'youtube-transcript';
+import axios from "axios";
+import { load } from "cheerio";
+import YoutubeInfo from "../interfaces/youtubeInfo";
 
 export default class TranscriptionService {
   transcriptionRepo = new TranscriptionRepo();
-  public async fetchYoutubeTranscription(request: string): Promise<TranscriptResponse[]> {
-    const transcript = await YoutubeTranscript.fetchTranscript(request, {lang: 'en'});
-    return transcript;
+  public async fetchYoutubeTranscription(request: string): Promise<YoutubeInfo> {
+    const videoPage = await axios.get(request);
+    const $ = load(videoPage.data);
+    const title = $('meta[itemprop="name"]').attr('content') ?? '';
+
+    let transcript: TranscriptResponse[];
+    try {
+      transcript = await YoutubeTranscript.fetchTranscript(request, {lang: 'en'}).catch();
+    } catch (e) {
+       transcript = []
+    }
+    return { title, transcript };
   }
 
   public async add(@Body() request: IAddTranscription): Promise<number> {

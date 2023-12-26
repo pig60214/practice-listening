@@ -3,7 +3,7 @@ import TranscriptionService from "../services/transcriptionService";
 import ApiResponse from "../interfaces/apiResponse";
 import { IAddTranscription, ITranscription, IUpdateTranscription } from "../interfaces/transcription";
 import IGenerateFromYoutubeRequest from "../interfaces/generateFromYoutube";
-import { TranscriptResponse } from "youtube-transcript";
+import YoutubeInfo from "../interfaces/youtubeInfo";
 
 @Route("transcription")
 export class TranscriptionController extends Controller {
@@ -33,7 +33,7 @@ export class TranscriptionController extends Controller {
   }
 
   @Post("/fetch-youtube-transcription")
-  public async fetchYoutubeTranscription(@Body() request: IGenerateFromYoutubeRequest): Promise<ApiResponse<TranscriptResponse[]>> {
+  public async fetchYoutubeTranscription(@Body() request: IGenerateFromYoutubeRequest): Promise<ApiResponse<YoutubeInfo>> {
     const t = await this.transcriptionService.fetchYoutubeTranscription(request.youtubeUrl);
     return new ApiResponse(0, t);
   }
