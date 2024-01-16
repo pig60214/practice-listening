@@ -1,3 +1,4 @@
 export default interface IGenerateFromYoutubeRequest {
-  youtubeUrl: string
+  youtubeUrl: string,
+  lang: string,
 }

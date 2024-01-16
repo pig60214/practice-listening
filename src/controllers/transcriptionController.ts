@@ -34,7 +34,7 @@ export class TranscriptionController extends Controller {
 
   @Post("/fetch-youtube-transcription")
   public async fetchYoutubeTranscription(@Body() request: IGenerateFromYoutubeRequest): Promise<ApiResponse<YoutubeInfo>> {
-    const t = await this.transcriptionService.fetchYoutubeTranscription(request.youtubeUrl);
+    const t = await this.transcriptionService.fetchYoutubeTranscription(request);
     return new ApiResponse(0, t);
   }
 }

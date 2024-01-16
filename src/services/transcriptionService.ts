@@ -5,17 +5,18 @@ import { TranscriptResponse, YoutubeTranscript } from 'youtube-transcript';
 import axios from "axios";
 import { load } from "cheerio";
 import YoutubeInfo from "../interfaces/youtubeInfo";
+import IGenerateFromYoutubeRequest from "../interfaces/generateFromYoutube";
 
 export default class TranscriptionService {
   transcriptionRepo = new TranscriptionRepo();
-  public async fetchYoutubeTranscription(request: string): Promise<YoutubeInfo> {
-    const videoPage = await axios.get(request);
+  public async fetchYoutubeTranscription(request: IGenerateFromYoutubeRequest): Promise<YoutubeInfo> {
+    const videoPage = await axios.get(request.youtubeUrl);
     const $ = load(videoPage.data);
     const title = $('meta[itemprop="name"]').attr('content') ?? '';
 
     let transcript: TranscriptResponse[];
     try {
-      transcript = await YoutubeTranscript.fetchTranscript(request, {lang: 'en'}).catch();
+      transcript = await YoutubeTranscript.fetchTranscript(request.youtubeUrl, {lang: request.lang}).catch();
     } catch (e) {
        transcript = []
     }
