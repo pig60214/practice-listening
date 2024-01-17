@@ -16,4 +16,8 @@ export default class VocabularyService {
     const result = await this.vocabularyRepo.update(request);
     return result;
   }
+  async delete(wordId: number): Promise<number> {
+    const result = await this.vocabularyRepo.delete(wordId);
+    return result;
+  }
 }

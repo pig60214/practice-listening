@@ -27,6 +27,15 @@ export default class VocabularyRepo {
       return 1;
     }
   }
+  async delete(wordId: number): Promise<number> {
+    try {
+      await pool.query(`DELETE FROM vocabulary WHERE id = ${wordId}`);
+      return 0;
+    } catch (err) {
+      console.error('SQL error', err);
+      return 1;
+    }
+  }
   async getByTranscriptionId(transcriptionId: number): Promise<IVocabulary[]>{
     try {
       const result = await pool.query(`SELECT id, transcription_id, word, video_offset FROM vocabulary WHERE transcription_id = ${transcriptionId}`);

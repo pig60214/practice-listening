@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Route } from "tsoa";
+import { Body, Controller, Delete, Get, Post, Route } from "tsoa";
 import ApiResponse from "../interfaces/apiResponse";
 import VocabularyService from "../services/vocabularyService";
 import IWord from "../interfaces/word";
@@ -21,6 +21,12 @@ export class VocabularyController extends Controller {
   @Post("/update")
   public async update(@Body() request: IWord): Promise<ApiResponse> {
     const result = await this.vocabularyService.update(request);
+    return new ApiResponse(result);
+  }
+
+  @Delete("/delete/{wordId}")
+  public async delete(wordId: number): Promise<ApiResponse> {
+    const result = await this.vocabularyService.delete(wordId);
     return new ApiResponse(result);
   }
 }
