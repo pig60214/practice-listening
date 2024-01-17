@@ -6,10 +6,10 @@ export default class VocabularyRepo {
   async add(request: IVocabulary) {
     try {
       await pool.query(`
-      INSERT INTO vocabulary(transcription_id, word)
-      SELECT ${request.transcriptionId}, '${request.word.replaceAll("'", "''")}'
+      INSERT INTO vocabulary(transcription_id, word, video_offset)
+      SELECT ${request.transcriptionId}, '${request.word.replaceAll("'", "''")}', ${request.videoOffset}
       WHERE NOT EXISTS (
-        SELECT 1 FROM vocabulary WHERE transcription_id = ${request.transcriptionId} AND word = '${request.word.replaceAll("'", "''")}'
+        SELECT 1 FROM vocabulary WHERE transcription_id = ${request.transcriptionId} AND word = '${request.word.replaceAll("'", "''")}' AND video_offset = ${request.videoOffset}
       )
       `);
       return 0;
@@ -20,7 +20,7 @@ export default class VocabularyRepo {
   }
   async update(vocabulary: IVocabulary): Promise<number> {
     try {
-      await pool.query(`UPDATE vocabulary SET word = '${vocabulary.word.replaceAll("'", "''")}' WHERE id = ${vocabulary.id}`);
+      await pool.query(`UPDATE vocabulary SET word = '${vocabulary.word.replaceAll("'", "''")}', video_offset = ${vocabulary.videoOffset}  WHERE id = ${vocabulary.id}`);
       return 0;
     } catch (err) {
       console.error('SQL error', err);
@@ -29,7 +29,7 @@ export default class VocabularyRepo {
   }
   async getByTranscriptionId(transcriptionId: number): Promise<IVocabulary[]>{
     try {
-      const result = await pool.query(`SELECT * FROM vocabulary WHERE transcription_id = ${transcriptionId}`);
+      const result = await pool.query(`SELECT id, transcription_id, word, video_offset FROM vocabulary WHERE transcription_id = ${transcriptionId}`);
       const data = objectToCamel(result.rows) as IVocabulary[];
       return data;
     } catch (err) {
